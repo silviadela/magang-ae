@@ -1,0 +1,55 @@
+<body bgcolor = "yellow">
+<h3 align = "center"> DATA TOKO ROTI </h3>
+
+<form method = "GET" action = "TUGAS_1.php" style ="text-align: center;">
+    <label>Pencarian : </label>
+    <input type = "text" name ="cari" value = "<?php if(isset($_GET['cari'])) {echo $_GET['cari']; }?>">
+    <button type = "submit"> cari </button>
+</form>
+
+<table border = "1" align = "center" width = "70%" bgcolor = "pink">
+    <tr bgcolor = "darkpink"> 
+       
+        <th>ID</th>
+        <th>NAMA ROTI</th>
+        <th>BAHAN</th>
+        <th>RASA</th>
+        <th>TOPING</th>
+        <th>HARGA</th>
+        <th>EXP</th>
+    </tr>
+
+    <?php
+    $host = "localhost";
+    $username = "root";
+    $password = "";
+    $database = "tugas_1";
+
+    $koneksi = mysqli_connect($host, $username, $password, $database);
+
+    if(isset ($_GET['cari'])) {
+        $pencarian = $_GET['cari'];
+        $query = "select * from toko_roti where ID like '%".$pencarian."%' or NAMA_ROTI like '%".$pencarian."%' or BAHAN like '%".$pencarian."%' or RASA like '%".$pencarian."%' or TOPING like '%".$pencarian."%' or HARGA like '%".$pencarian."%' or EXP like '%".$pencarian."%'";
+    } else {
+        $query = " select * from toko_roti";
+    }
+
+    $ambildata = mysqli_query($koneksi, $query);
+    while($tampil = mysqli_fetch_array($ambildata)){
+        echo "
+        <tr>
+    
+          <td>$tampil[ID]</td>
+          <td>$tampil[NAMA_ROTI]</td>
+          <td>$tampil[BAHAN]</td>
+          <td>$tampil[RASA]</td>
+          <td>$tampil[TOPING]</td>
+          <td>$tampil[HARGA]</td>
+          <td>$tampil[EXP]</td>
+          
+        </tr>";
+      
+    }
+
+    ?>
+</table>
